@@ -6,7 +6,7 @@ const app = express();
 const port = 5000;
 
 app.use(cors({
-  origin: 'http://tg-cinema-platform-1579489812.us-east-2.elb.amazonaws.com'
+  origin: 'http://lb-grupo14-app-cinema-2120355127.us-east-2.elb.amazonaws.com'
 }));
 
 app.get('/', (req, res) => {
