@@ -11,7 +11,7 @@ env:
   ECR_REPOSITORY: grupo14-apigateway
   ECS_SERVICE: srv-api-gateway
   ECS_CLUSTER: g14-api-gateway
-  ECS_TASK_DEFINITION: task-api-gateway.json  # Asegúrate de que esta ruta sea correcta
+  ECS_TASK_DEFINITION: task-api-gateway.json  # Asegúrate de que esta ruta sea 
   CONTAINER_NAME: apigateway
 
 jobs:
