@@ -6,12 +6,12 @@ on:
       - main
 
 env:
-  AWS_REGION: us-east-2
+  AWS_REGION: us-east-1
   ECR_REGISTRY: 339712766050.dkr.ecr.us-east-2.amazonaws.com
   ECR_REPOSITORY: grupo14-apigateway
   ECS_SERVICE: srv-api-gateway
   ECS_CLUSTER: g14-api-gateway
-  ECS_TASK_DEFINITION: .aws/task-api-gateway.json  # Asegúrate de que esta ruta sea correcta
+  ECS_TASK_DEFINITION: arn:aws:ecs:us-east-2:339712766050:task-definition/task-api-gateway:2
   CONTAINER_NAME: apigateway
 
 jobs:
