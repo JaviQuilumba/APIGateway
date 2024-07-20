@@ -6,12 +6,15 @@ on:
       - main
 
 env:
-  AWS_REGION: us-east-1
-  ECR_REPOSITORY: grupo14/apigateway
-  ECS_SERVICE: srv-api-gateway
-  ECS_CLUSTER: g14-api-gateway
-  ECS_TASK_DEFINITION: task-api-gateway
-  CONTAINER_NAME: apigateway
+  AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REGISTRY: 339712766050.dkr.ecr.us-east-2.amazonaws.com  # set this to your ECR registry
+  ECR_REPOSITORY: grupo14-apigateway           # set this to your Amazon ECR repository name
+  ECS_SERVICE: srv-api-gateway                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: g14-api-gateway                 # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: task-api-gateway  # set this to the path to your Amazon ECS task definition
+                                               # file, e.g. .aws/task-definition.json
+  CONTAINER_NAME: apigateway                   # set this to the name of the container in the
+                                               # containerDefinitions section of your task definition
 
 jobs:
   deploy:
@@ -31,16 +34,16 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         run: |
-          aws ecr-public get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin public.ecr.aws
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t public.ecr.aws/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG .
-          docker push public.ecr.aws/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
-          echo "image=public.ecr.aws/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG .
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+          echo "image=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
