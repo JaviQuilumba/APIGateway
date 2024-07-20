@@ -9,11 +9,11 @@ env:
   AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REGISTRY: 339712766050.dkr.ecr.us-east-2.amazonaws.com  # set this to your ECR registry
   ECR_REPOSITORY: grupo14-apigateway           # set this to your Amazon ECR repository name
-  ECS_SERVICE: srv-api-gateway                 # set this to your Amazon ECS service name
+  ECS_SERVICE: srv-g14-api-gateway                 # set this to your Amazon ECS service name
   ECS_CLUSTER: g14-api-gateway                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: task-api-gateway  # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION: arn:aws:ecs:us-east-2:339712766050:task-definition/task-apigateway:1  # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: apigateway                   # set this to the name of the container in the
+  CONTAINER_NAME: api-gateway                   # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 jobs:
