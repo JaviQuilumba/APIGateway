@@ -10,7 +10,7 @@ app.use(cors({
 }));
 
 app.get('/', (req, res) => {
-    res.status(200).json({ status: 'ok', message: 'API Gateway is running JC' });
+    res.status(200).json({ status: 'ok', message: 'API Gateway is running JC2' });
 });
 
 
@@ -19,7 +19,7 @@ app.use((req, res, next) => {
     next();
 });
 
-const services = 'http://lb-grup14-services-1013743141.us-east-2.elb.amazonaws.com';
+const services = 'http://lb-g14-microservices-107665025.us-east-2.elb.amazonaws.com';
 
 app.use('/gateway', createProxyMiddleware({ target: services, changeOrigin: true }));
 
