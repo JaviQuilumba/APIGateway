@@ -9,7 +9,7 @@ env:
   AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REGISTRY: 339712766050.dkr.ecr.us-east-2.amazonaws.com  # set this to your ECR registry
   ECR_REPOSITORY: grupo14-apigateway           # set this to your Amazon ECR repository name
-  ECS_SERVICE: srv-api-gateway                 # set this to your Amazon ECS service name
+  ECS_SERVICE: srv-apigateway                 # set this to your Amazon ECS service name
   ECS_CLUSTER: g14-api-gateway                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: task-api-gateway  # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
@@ -45,12 +45,15 @@ jobs:
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
           echo "image=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-
-      - name: Fill in the new image ID in the Amazon ECS task definition
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition task-apigateway --query taskDefinition > task-definition.json
+  
+      - name: Fill in new image ID in task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
